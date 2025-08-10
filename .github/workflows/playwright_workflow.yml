@@ -18,13 +18,12 @@ jobs:
 
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
     steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with: { node-version: 20 }
-        - run: npm ci
-        - run: npx playwright install --with-deps
-        - run: xvfb-run -a npx playwright test ${{ github.event.inputs.test_file }}
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: xvfb-run -a npx playwright test ${{ github.event.inputs.test_file }}
 
 
