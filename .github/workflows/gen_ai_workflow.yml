@@ -21,8 +21,7 @@ jobs:
       - name: Run AI test generator
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: node scripts/gen-tests.js --out tests/generated.spec.ts
-
+        run: node ai/generateTest.js --out tests/generated-$(date +%Y%m%d%H%M%S).spec.ts
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
