@@ -1,0 +1,35 @@
+name: Generate AI Tests
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * 1"   # optional weekly run
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  gen-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - name: Run generator
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/gen-tests.js --out tests/generated.spec.ts
+
+      # Option 1: auto-PR using an action
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "[skip ci] chore: update AI-generated tests"
+          title: "chore: update AI-generated tests"
+          body: "Automated update of AI-generated tests"
+          branch: ai/generated-tests
+          base: main
