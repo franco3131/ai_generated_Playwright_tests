@@ -1,8 +1,7 @@
 name: Generate AI Tests
+
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 9 * * 1"   # optional weekly run
+  workflow_dispatch:  # only runs when you click "Run workflow"
 
 permissions:
   contents: write
@@ -19,12 +18,11 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - name: Run generator
+      - name: Run AI test generator
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node scripts/gen-tests.js --out tests/generated.spec.ts
 
-      # Option 1: auto-PR using an action
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
