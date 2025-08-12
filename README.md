@@ -3,3 +3,5 @@ When creating the tests, i ran promps such as 'create several edge case scenario
 I used command like 'node ai/generateTest.js "create several similar tests based on the template"' 
 
 This repo uses github actions and runs tests when code push to main or prs targeting main. Also through workflow dispatch.
+
+Additionally, test cases can be generated using the ai workflow in actions tab. A pull request is created. 
